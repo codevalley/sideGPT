@@ -1,44 +1,56 @@
 /* style.css */
 
-.nyn-search-bar {
-    width: calc(100% - 20px);
-    padding: 10px;
-    margin: 10px 0;
+/* Wrapper for the search section including the search bar and results */
+.nyn-search-section {
     border: 1px solid #ccc;
     border-radius: 4px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    font-size: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+    background-color: rgb(90, 94, 101); /* Match the background to the sidebar color */
+    color: grey;
+    margin: 10px;
+}
+
+.nyn-search-bar {
+    width: calc(100%); /* Adjust width as necessary */
+    padding: 10px;
+    margin-bottom: 0; /* Remove bottom margin */
+    border: none; /* Remove border */
     outline: none;
-    background-color: rgb(90, 94, 101);
+    font-size: 14px;
+    background-color: rgba(255, 255, 255, 0.1); /* Slightly lighter than the wrapper background */
     color: grey;
 }
 
 .nyn-search-bar:focus {
-    border-color: #007BFF;
-    box-shadow: 0 0 5px rgba(0,123,255,.5);
+    box-shadow: inset 0 0 5px rgba(0,123,255,.5);
 }
 
-/* Additional styles for search results (if needed) */
+/* Styles for search results */
 .nyn-search-results {
     list-style: none;
     padding: 0;
-    margin: 10px 0;
+    margin: 0; /* Remove margin */
     max-height: 200px;
     overflow-y: auto;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    color: grey;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+    font-size: 14px;
+    color: lightgray;
+    border: none; /* Remove border */
 }
 
 .nyn-search-results li {
     padding: 8px 10px;
     cursor: pointer;
     transition: background-color 0.3s;
+    border-bottom: 1px solid #ccc; /* Optional: add a border between items */
+}
+
+.nyn-search-results li:last-child {
+    border-bottom: none; /* Remove bottom border from the last item */
 }
 
 .nyn-search-results li:hover {
     background-color: #f8f9fa;
+    color: black;
 }
 
-/* Ensure to link this CSS file in your content script */
+/* Make sure this CSS file is linked in your content script or HTML */

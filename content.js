@@ -50,6 +50,11 @@ function fetchListAndURIs(sidebar) {
 }
 
 function addSearchBar(sidebar) {
+    // Create a wrapper div for the search section
+    const searchSection = document.createElement("div");
+    searchSection.className = 'nyn-search-section';
+    searchSection.classList.add("nyn-search-section", "relative", "mt-5");
+
     const searchBar = document.createElement("input");
     searchBar.setAttribute("type", "text");
     searchBar.setAttribute("id", "myExtensionSearchBar");
@@ -57,10 +62,14 @@ function addSearchBar(sidebar) {
     searchBar.setAttribute("placeholder", "Search topics...");
     searchBar.classList.add("nyn-search-bar");
 
-    sidebar.insertBefore(searchBar, sidebar.firstChild);
+    // Append the search bar to the wrapper div
+    searchSection.appendChild(searchBar);
+
+    // Insert the wrapper div before the first child of the sidebar
+    sidebar.insertBefore(searchSection, sidebar.firstChild);
 
     searchBar.addEventListener("input", function () {
-        showSuggestions(this.value, sidebar);
+        showSuggestions(this.value, searchSection); // Pass the wrapper div instead of sidebar
     });
 }
 
@@ -72,7 +81,7 @@ function filterEntries(query) {
     return window.myExtensionEntries.filter(entry => entry.text.toLowerCase().includes(query.toLowerCase()));
 }
 
-function showSuggestions(query, sidebar) {
+function showSuggestions(query, searchSection) {
     const suggestions = filterEntries(query);
     const suggestionsContainer = document.createElement('ul');
     suggestionsContainer.className = 'nyn-search-results';
@@ -80,18 +89,22 @@ function showSuggestions(query, sidebar) {
     suggestions.forEach(suggestion => {
         const li = document.createElement('li');
         li.textContent = suggestion.text;
-        li.setAttribute("data-projection-id",7);
+        // You can add more classes to li to match the style of other list items in the sidebar
+        li.className = 'nyn-search-result-item';
         li.onclick = () => window.location.href = suggestion.uri;
         suggestionsContainer.appendChild(li);
     });
 
-    const existingContainer = sidebar.querySelector('.nyn-search-results');
+    // Remove the existing suggestions container if it exists
+    const existingContainer = searchSection.querySelector('.nyn-search-results');
     if (existingContainer) {
-        existingContainer.parentNode.removeChild(existingContainer);
+        searchSection.removeChild(existingContainer);
     }
 
-    sidebar.insertBefore(suggestionsContainer, sidebar.children[1]); // Adjust as needed
+    // Append the new suggestions container to the search section
+    searchSection.appendChild(suggestionsContainer);
 }
+
 
 // Call the function when the content script loads
 if (document.readyState === "loading") {
