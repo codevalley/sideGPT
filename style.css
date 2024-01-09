@@ -9,7 +9,8 @@
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     font-size: 8px;
     outline: none;
-    color: aquamarine;
+    background-color: rgb(90, 94, 101);
+    color: grey;
 }
 
 .nyn-search-bar:focus {
@@ -26,6 +27,7 @@
     overflow-y: auto;
     border: 1px solid #ccc;
     border-radius: 4px;
+    color: grey;
     box-shadow: 0 2px 4px rgba(0,0,0,0.15);
 }
 
