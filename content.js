@@ -1,12 +1,13 @@
 // content.js
 
-// Wait for the DOM to be fully loaded
-console.log('content script loaded');
+// // Wait for the DOM to be fully loaded
+// console.log('content script loaded');
 
 function handleDOMContentLoaded() {
     const sidebar = document.querySelector('nav[aria-label="Chat history"]');
     if(sidebar) {
         fetchListAndURIs(sidebar);
+        addSearchBar(sidebar);
     } else {
         console.log("Sidebar not found!");
     }
@@ -52,10 +53,40 @@ function fetchListAndURIs() {
 
     // Log the entries or send them to your extension's background script or popup
     console.log(entries);
+    // Add the search functionality after fetching the entries
+    if (entries.length > 0) {
+        setupSearch(entries);
+        
+    }
     // Example: chrome.runtime.sendMessage({type: "ENTRIES_FOUND", data: entries});
 }
 
+function addSearchBar(sidebar) {
+    const searchBar = document.createElement("input");
+    searchBar.setAttribute("type", "text");
+    searchBar.setAttribute("id", "myExtensionSearchBar");
+    searchBar.setAttribute("placeholder", "Search...");
+    searchBar.classList.add("nyn-search-bar");
 
+    sidebar.insertBefore(searchBar, sidebar.firstChild);
+
+    // Event listener for handling search
+    searchBar.addEventListener("input", function () {
+        handleSearch(this.value);
+    });
+}
+
+function setupSearch(entries) {
+    window.myExtensionEntries = entries; // Make entries globally available for search
+}
+
+function handleSearch(query) {
+    const results = window.myExtensionEntries.filter(entry =>
+        entry.text.toLowerCase().includes(query.toLowerCase())
+    );
+    console.log(results); // For now, just log the results
+    // TODO: Implement UI for displaying results and handling click events
+}
 // Call the function when the content script loads
 
 if (document.readyState === "loading") {
